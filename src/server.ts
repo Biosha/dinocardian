@@ -1,7 +1,7 @@
 import app from './app';
 import cors from "cors";
 
-const allowedOrigins = '*';
+const allowedOrigins = ['http://www.dinocard.net', '*'];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins
