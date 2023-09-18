@@ -1,2 +1,15 @@
-node_modules
-.yarn
+dist/
+node_modules/
+.yarn/*
+**/.yarn/*
+!.yarn/releases
+!**/.yarn/releases
+!.yarn/plugins
+!**/.yarn/plugins
+!.yarn/sdks
+!**/.yarn/sdks
+!.yarn/versions
+!**/.yarn/versions
+.pnp.*
+# We only use `yarn.lock` files, ensure npm's `package-lock.json` is not commited
+package-lock.json
