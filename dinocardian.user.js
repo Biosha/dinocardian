@@ -6,8 +6,8 @@
 // @author       Biosha
 // @match        http://www.dinocard.net/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=dinocard.net
-// @downloadURL  https://gitlab.com/eternaltwin/dinocard/dinocard/-/raw/alpha016/dinocardian.user.js?ref_type=heads
-// @updateURL    https://gitlab.com/eternaltwin/dinocard/dinocard/-/raw/alpha016/dinocardian.user.js?ref_type=heads
+// @downloadURL  https://github.com/Biosha/dinocardian/raw/master/dinocardian.user.js
+// @updateURL    https://github.com/Biosha/dinocardian/raw/master/dinocardian.user.js
 // @grant        GM_xmlhttpRequest
 // @grant        GM.setValue
 // @grant        GM.getValue
