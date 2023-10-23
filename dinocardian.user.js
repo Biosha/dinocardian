@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DinoCardian
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  try to save your cards!
 // @author       Biosha
 // @match        http://www.dinocard.net/*
@@ -17,6 +17,8 @@ const serverURL = 'https://dinocard.eternaltwin.org/api/backup/save';
 const userId = document.getElementById("usermenu").children[0].children[0].attributes.href.value.match(/id=(\d*)/)[1];
 const userName = document.getElementById("usermenu").children[0].children[0].innerHTML;
 console.log("[DinocardBackup] Hello " + userName);
+
+
 
 let savedDeck = [];
 let collectionHash;
@@ -46,6 +48,16 @@ function addButton()
 
     const usermenu = document.getElementById('usermenu');
 
+
+    const clear = document.createElement('span')
+    const link = document.createElement('a')
+    link.innerHTML = 'Clear Data';
+    link.onmouseover = "showTip(this,'Clear Datas', 'Remettre à zéro les données envoyées.');"
+    link.onmouseout = "hideTip()";
+    clear.appendChild(link);
+    link.addEventListener("click", clearData);
+    usermenu.appendChild(clear);
+
     //Bouton save Collection
     if (window.location.pathname === '/card/viewAll') {
         const endcollect = document.getElementById('center').children[6]
@@ -67,6 +79,14 @@ function addButton()
         btn.addEventListener("click", saveDeck);
         rightMenu.appendChild(btn);
     }
+}
+
+function clearData() {
+    GM.setValue('savedDeck', {})
+    savedDeck = [];
+    GM.setValue('collection', {})
+    collectionHash = '';
+    window.alert("Les données locales ont été effacées.")
 }
 
 function sendToServerJSON(data, dataType)
