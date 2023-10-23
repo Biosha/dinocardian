@@ -69,7 +69,7 @@ function addButton()
     }
 }
 
-function sendToServerJSON(data)
+function sendToServerJSON(data, dataType)
 {
     console.log("Send Request to server");
     fetch(`${serverURL}`, {
@@ -80,7 +80,15 @@ function sendToServerJSON(data)
         },
         body: JSON.stringify(data)
     }).then((res) => {
-        if (res.status == 200) window.alert("Elements sauvegardé")
+        if (res.status == 200 && dataType == 'deck') {
+            savedDeck.push(data.deck.name)
+            GM.setValue('savedDeck', savedDeck)
+            window.alert("Deck sauvegardé")
+        } else if (res.status == 200) {
+            GM.setValue('collection', dataType)
+            collectionHash = dataType
+            window.alert("Collection sauvegardée")
+        }
     })
         .catch(err => Promise.reject(err));
 }
@@ -107,9 +115,7 @@ function saveCollection()
     if (newHash === collectionHash) {
         window.alert("Votre collection a déjà été sauvegardée.")
     } else {
-        GM.setValue('collection', newHash)
-        collectionHash = newHash
-        sendToServerJSON({playerId: userId, playerName: userName, collection: cardArray});
+        sendToServerJSON({playerId: userId, playerName: userName, collection: cardArray}, newHash);
     }
 }
 
@@ -154,9 +160,7 @@ function saveDeck()
     if (savedDeck.some(d => d === deckInfo.name)) {
         window.alert("Ce deck a déjà été sauvegardé")
     } else {
-        savedDeck.push(deckInfo.name)
-        GM.setValue('savedDeck', savedDeck)
-        sendToServerJSON({playerId: userId, playerName: userName, deck: deckInfo});
+        sendToServerJSON({playerId: userId, playerName: userName, deck: deckInfo}, 'deck');
     }
 }
 
