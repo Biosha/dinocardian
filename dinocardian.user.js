@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DinoCardian
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.5
 // @description  try to save your cards!
 // @author       Biosha
 // @match        http://www.dinocard.net/*
@@ -13,7 +13,7 @@
 // @grant        GM.getValue
 // ==/UserScript==
 
-const serverURL = 'https://staging.dinocard.eternaltwin.org/api/backup/save'
+const serverURL = 'https://dinocard.eternaltwin.org/api/backup/save';
 const userId = document.getElementById("usermenu").children[0].children[0].attributes.href.value.match(/id=(\d*)/)[1];
 const userName = document.getElementById("usermenu").children[0].children[0].innerHTML;
 console.log("[DinocardBackup] Hello " + userName);
@@ -21,23 +21,30 @@ console.log("[DinocardBackup] Hello " + userName);
 let savedDeck = [];
 let collectionHash;
 GM.getValue('savedDeck').then((deck) => {
-    if (deck) savedDeck.push(...deck)
+    if (deck) {
+        savedDeck.push(...deck);
+    }
 });
 GM.getValue('collection').then((col) => {
-    if(col) collectionHash = col
+    if (col) {
+        collectionHash = col;
+    }
 });
 
-function hashCode(str) {
-  return Array.from(str)
-    .reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0)
+function hashCode(str)
+{
+    return Array.from(str)
+        .reduce((s, c) => Math.imul(31, s) + c.charCodeAt(0) | 0, 0);
 }
 
-function addButton() {
+function addButton()
+{
     let update_external_tools_btn = document.getElementById('save');
-    if (update_external_tools_btn) return;
+    if (update_external_tools_btn) {
+        return;
+    }
 
     const usermenu = document.getElementById('usermenu');
-
 
     //Bouton save Collection
     if (window.location.pathname === '/card/viewAll') {
@@ -60,10 +67,10 @@ function addButton() {
         btn.addEventListener("click", saveDeck);
         rightMenu.appendChild(btn);
     }
-
 }
 
-function sendToServerJSON(data) {
+function sendToServerJSON(data)
+{
     console.log("Send Request to server");
     fetch(`${serverURL}`, {
         method: 'POST',
@@ -72,13 +79,18 @@ function sendToServerJSON(data) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data)
+    }).then((res) => {
+        if (res.status == 200) window.alert("Elements sauvegardé")
     })
+        .catch(err => Promise.reject(err));
 }
 
-function saveCollection(){
+function saveCollection()
+{
     if (document.getElementById("folder2").classList[0] === 'disable') {
-        window.alert("Mauvais onglet sélectionné\nMerci d'être en mode tableau")
-        return
+        window.alert("Mauvais onglet sélectionné\nMerci d'être en mode tableau");
+
+        return;
     }
     let cardArray = []
 
@@ -101,10 +113,12 @@ function saveCollection(){
     }
 }
 
-function saveDeck(){
+function saveDeck()
+{
     if (document.getElementById("folder2").classList[0] === 'disable') {
-        window.alert("Mauvais onglet sélectionné\nMerci d'être en mode tableau")
-        return
+        window.alert("Mauvais onglet sélectionné\nMerci d'être en mode tableau");
+
+        return;
     }
     let cardArray = []
 
@@ -146,9 +160,8 @@ function saveDeck(){
     }
 }
 
-(function() {
+(function () {
     setTimeout(() => {
         addButton()
     }, 500);
-
 })();
