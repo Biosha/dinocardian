@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DinoCardian
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  try to save your cards!
 // @author       Biosha
 // @match        http://www.dinocard.net/*
@@ -164,7 +164,7 @@ function saveDeck()
         playerName: userName,
         deckId: hiddenInfoPack.querySelector("[name='packId']"),
         level: parseInt(infoPack.getElementsByClassName('levelBox')[0].textContent),
-        victory: parseInt(infoPack.getElementsByClassName('victoryBox')[0].textContent.match(/Victoire : (\d*)%/)[1]),
+        victory: parseInt(infoPack.getElementsByClassName('victoryBox')[0].textContent.match(/Victoire : (\S*)%/)[1]),
         experience: parseInt(infoPack.getElementsByClassName('xpBox')[0].textContent.match(/Expérience : (\d*)%/)[1]),
         totalCard: parseInt(infoPack.getElementsByClassName('packName')[0].innerText.match(/.*\[ (\d*) cartes \].*/)[1]),
         perception: parseInt(document.getElementById("4").innerText),
